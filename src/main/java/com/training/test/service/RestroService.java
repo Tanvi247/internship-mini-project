@@ -4,6 +4,7 @@ import com.training.test.entity.RestaurantAddressDetails;
 import com.training.test.entity.RestaurantDetails;
 import com.training.test.model.RestroDetailsRequest;
 import com.training.test.repository.RestaurantDetailsRepository;
+import jakarta.transaction.Transactional;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -39,6 +40,7 @@ public class RestroService {
         restaurantDetails.setAddressDetails(addressDetails);
         restaurantDetails.setRestroType(restroDetailsRequest.getType());
         restaurantDetails.setContact(Long.parseLong(restroDetailsRequest.getContact()));
+        restaurantDetails.setEmailId(restroDetailsRequest.getEmailId());
 
         restaurantDetailsRepository.save(restaurantDetails);
 
@@ -67,9 +69,9 @@ public class RestroService {
         return restaurantDetails.get();
     }
 
-
+    @Transactional
     public void deleteRestro(String name){
-        System.out.println("Restro Deleted is "+name);
+        restaurantDetailsRepository.deleteByName(name);
     }
 
 }

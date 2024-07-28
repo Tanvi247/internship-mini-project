@@ -1,7 +1,9 @@
 package com.training.test.controller;
 
 import com.training.test.entity.RestaurantDetails;
+import com.training.test.entity.UserDetails;
 import com.training.test.model.RestroDetailsRequest;
+import com.training.test.model.UserDeletionRequest;
 import com.training.test.service.LoginService;
 import com.training.test.service.RestroService;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/restro")
 public class RestaurantController {
 
@@ -30,26 +33,27 @@ public class RestaurantController {
         return new ResponseEntity<>("This is a first get request", HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/create")
+    @PostMapping("/createRestro")
     public ResponseEntity<String> setRestro(@RequestBody RestroDetailsRequest restroDetailsRequest){
         this.restroService.processNewRestro(restroDetailsRequest);
         return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and owner name is "+restroDetailsRequest.getOwner() +" with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
-    @GetMapping("/getDetails")
+    @GetMapping("/getRestroDetails")
     public RestaurantDetails getRestro(){
         return this.restroService.getRestro();
 //        return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and username is "+restroDetailsRequest.getUsername() +"with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
-    @PostMapping("/updateDetails")
+    @PostMapping("/updateRestroDetails")
     public RestaurantDetails updateRestro(){
         return this.restroService.updateRestro();
 //        return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and username is "+restroDetailsRequest.getUsername() +"with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteRestro(@RequestBody String name){
+    @DeleteMapping("/deleteRestro/{name}")
+    public ResponseEntity<String> deleteRestro(@PathVariable String name){
         this.restroService.deleteRestro(name);
+        return new ResponseEntity<>("Deleted restro with name"+ name, HttpStatus.OK);
     }
 }
