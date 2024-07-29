@@ -52,9 +52,6 @@ public class UserService {
         userDetailsRepository.deleteByUsername(userDeletionRequest.getUsername());
     }
 
-//    public UserDetails updateUser(String username) {
-//    }
-
 
 
 }

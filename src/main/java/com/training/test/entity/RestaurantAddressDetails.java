@@ -1,7 +1,6 @@
 package com.training.test.entity;
 
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Data;
 
 @Data

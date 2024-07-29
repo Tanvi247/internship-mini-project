@@ -36,9 +36,4 @@ public class AuthenticationController {
         return new ResponseEntity<>("Deleted user with username" + userDeletionRequest.getUsername(), HttpStatus.OK);
     }
 
-//    @PostMapping("/updateUser")
-//    public ResponseEntity<String> updateUser(@RequestBody UserRegistrationRequest userRegistrationRequest){
-//        this.userService.updateUser(userRegistrationRequest.getUsername());
-//        return new ResponseEntity<>("Owner Name is "+userRegistrationRequest.getFirstName() + userRegistrationRequest.getLastName()+" username " + userRegistrationRequest.getUsername() +" email id"+ userRegistrationRequest.getEmailId() + " phone no"+ userRegistrationRequest.getContact()+ " dob" + userRegistrationRequest.getDateOfBirth(), HttpStatus.OK );
-//    }
 }

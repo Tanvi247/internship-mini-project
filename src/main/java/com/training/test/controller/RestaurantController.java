@@ -1,9 +1,7 @@
 package com.training.test.controller;
 
 import com.training.test.entity.RestaurantDetails;
-import com.training.test.entity.UserDetails;
 import com.training.test.model.RestroDetailsRequest;
-import com.training.test.model.UserDeletionRequest;
 import com.training.test.service.LoginService;
 import com.training.test.service.RestroService;
 import org.springframework.http.HttpStatus;
@@ -15,10 +13,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/restro")
 public class RestaurantController {
 
-    //    @Autowired
     RestroService restroService;
 
-    //    @Autowired
     LoginService loginService;
 
     RestaurantController(RestroService restroService, LoginService loginService){
@@ -28,8 +24,6 @@ public class RestaurantController {
 
     @GetMapping("/new")
     public ResponseEntity<String> getRestros(){
-//        System.out.println("This is a first get request");
-//        return "This is a first get request";
         return new ResponseEntity<>("This is a first get request", HttpStatus.ACCEPTED);
     }
 
@@ -42,13 +36,11 @@ public class RestaurantController {
     @GetMapping("/getRestroDetails")
     public RestaurantDetails getRestro(){
         return this.restroService.getRestro();
-//        return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and username is "+restroDetailsRequest.getUsername() +"with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
     @PostMapping("/updateRestroDetails")
     public RestaurantDetails updateRestro(){
         return this.restroService.updateRestro();
-//        return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and username is "+restroDetailsRequest.getUsername() +"with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
     @DeleteMapping("/deleteRestro/{name}")
