@@ -22,7 +22,6 @@ public class UserService {
         this.userDetailsRepository = userDetailsRepository;
     }
 
-
     public void registerNewUser(UserRegistrationRequest userRegistrationRequest) {
 
         log.info("Entered service method to register new user received with details Name : {}{} username:{} email id: {} contact: {} dob: {} ", userRegistrationRequest.getFirstName(), userRegistrationRequest.getLastName(),userRegistrationRequest.getUsername(), userRegistrationRequest.getEmailId(),userRegistrationRequest.getContact(), userRegistrationRequest.getDateOfBirth());

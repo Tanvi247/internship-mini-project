@@ -14,5 +14,5 @@ public class RestroDetailsRequest {
     private String contact;
     private String zipCode;
     private String streetName;
-    private String emailId;
+    private String email;
 }

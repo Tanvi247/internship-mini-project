@@ -36,17 +36,15 @@ public class RestaurantController {
 
     @PostMapping("/createRestro")
     public ResponseEntity<Map<String, String>> setRestro(@RequestBody RestroDetailsRequest restroDetailsRequest){
-        log.info("Request to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {}", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmailId(),restroDetailsRequest.getContact());
+        log.info("Request to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {}", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmail(),restroDetailsRequest.getContact());
         this.restroService.processNewRestro(restroDetailsRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", "restaurant added");
         return new ResponseEntity<>(response, HttpStatus.OK);
-//        return new ResponseEntity<>("Restro name is "+restroDetailsRequest.getName()+" and owner name is "+restroDetailsRequest.getOwner() +" with contact "+restroDetailsRequest.getContact(), HttpStatus.OK);
     }
 
     @GetMapping("/getRestroDetails")
-//    public List<RestaurantDetails> getRestro(){
-    public RestaurantDetails getRestro(){
+    public List<RestaurantDetails> getRestro(){
         log.info("Request to display all restaurants stored in the restaurant details table received");
         return this.restroService.getRestro();
     }

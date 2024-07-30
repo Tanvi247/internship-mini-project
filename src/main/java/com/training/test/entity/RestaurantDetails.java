@@ -30,5 +30,5 @@ public class RestaurantDetails {
     private Long contact;
 
     @Column(name = "email_id")
-    private String emailId;
+    private String email;
 }

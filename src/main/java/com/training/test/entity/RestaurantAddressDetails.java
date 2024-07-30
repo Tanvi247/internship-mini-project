@@ -20,6 +20,6 @@ public class RestaurantAddressDetails {
     @Column(name = "city")
     private String city;
 
-    @Column(name = "pin_code")
-    private int pinCode;
+    @Column(name = "zip_code")
+    private int zipCode;
 }

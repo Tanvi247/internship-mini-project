@@ -28,11 +28,11 @@ public class RestroService {
 
     public RestaurantDetails processNewRestro(RestroDetailsRequest restroDetailsRequest){
 
-        log.info("Method to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {} ", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmailId(),restroDetailsRequest.getContact());
+        log.info("Method to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {} ", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmail(),restroDetailsRequest.getContact());
 
         RestaurantAddressDetails addressDetails = new RestaurantAddressDetails();
         addressDetails.setStreetName(restroDetailsRequest.getStreetName());
-        addressDetails.setPinCode(Integer.parseInt(restroDetailsRequest.getZipCode()));
+        addressDetails.setZipCode(Integer.parseInt(restroDetailsRequest.getZipCode()));
         addressDetails.setCity(restroDetailsRequest.getCity());
 
         RestaurantDetails restaurantDetails = new RestaurantDetails();
@@ -41,7 +41,7 @@ public class RestroService {
         restaurantDetails.setAddressDetails(addressDetails);
         restaurantDetails.setRestroType(restroDetailsRequest.getType());
         restaurantDetails.setContact(Long.parseLong(restroDetailsRequest.getContact()));
-        restaurantDetails.setEmailId(restroDetailsRequest.getEmailId());
+        restaurantDetails.setEmail(restroDetailsRequest.getEmail());
 
         restaurantDetailsRepository.save(restaurantDetails);
 
@@ -50,13 +50,13 @@ public class RestroService {
 
     }
 
-    public RestaurantDetails getRestro(){
+    public List<RestaurantDetails> getRestro(){
         log.info("Entered method to display all restaurants");
         List<RestaurantDetails> restaurantDetails = null;
 
         restaurantDetails = restaurantDetailsRepository.findAll();
         log.info("Restaurant data retrieved {}", restaurantDetails);
-        return restaurantDetails.getFirst();
+        return restaurantDetails;
 
     }
 
