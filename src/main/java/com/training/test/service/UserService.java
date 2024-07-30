@@ -6,10 +6,12 @@ import com.training.test.model.UserRegistrationRequest;
 import com.training.test.repository.UserDetailsRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Slf4j
 @Data
 @Service
 public class UserService {
@@ -23,6 +25,8 @@ public class UserService {
 
     public void registerNewUser(UserRegistrationRequest userRegistrationRequest) {
 
+        log.info("Entered service method to register new user received with details Name : {}{} username:{} email id: {} contact: {} dob: {} ", userRegistrationRequest.getFirstName(), userRegistrationRequest.getLastName(),userRegistrationRequest.getUsername(), userRegistrationRequest.getEmailId(),userRegistrationRequest.getContact(), userRegistrationRequest.getDateOfBirth());
+
         UserDetails userDetails = new UserDetails();
 
         userDetails.setFirstName(userRegistrationRequest.getFirstName());
@@ -35,23 +39,23 @@ public class UserService {
 
         userDetailsRepository.save(userDetails);
 
-        System.out.println("New user added successfully with username" + userDetails.getUsername());
-
+        log.info("Name of the new restaurant created is {}", userRegistrationRequest.getUsername());
     }
 
-    public UserDetails getUser() {
+    public List<UserDetails> getUser() {
+        log.info("Entered method to display all restaurants");
         List<UserDetails> userDetailsList = null;
 
         userDetailsList = userDetailsRepository.findAll();
-        return userDetailsList.getFirst();
 
+        log.info("User data retrieved {}", userDetailsList);
+
+        return userDetailsList;
     }
 
     @Transactional
     public void deleteUser(UserDeletionRequest userDeletionRequest) {
+        log.info("Entered method to delete user named{}", userDeletionRequest.getUsername());
         userDetailsRepository.deleteByUsername(userDeletionRequest.getUsername());
     }
-
-
-
 }

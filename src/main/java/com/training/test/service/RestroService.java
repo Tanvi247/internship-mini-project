@@ -6,11 +6,13 @@ import com.training.test.model.RestroDetailsRequest;
 import com.training.test.repository.RestaurantDetailsRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Data
 @Service
 public class RestroService {
@@ -24,7 +26,9 @@ public class RestroService {
     }
 
 
-    public void processNewRestro(RestroDetailsRequest restroDetailsRequest){
+    public RestaurantDetails processNewRestro(RestroDetailsRequest restroDetailsRequest){
+
+        log.info("Method to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {} ", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmailId(),restroDetailsRequest.getContact());
 
         RestaurantAddressDetails addressDetails = new RestaurantAddressDetails();
         addressDetails.setStreetName(restroDetailsRequest.getStreetName());
@@ -41,19 +45,23 @@ public class RestroService {
 
         restaurantDetailsRepository.save(restaurantDetails);
 
+        log.info("Name of the new restaurant created is {}", restroDetailsRequest.getName());
+        return restaurantDetails;
 
-        System.out.print("New Restro name "+restroDetailsRequest.getName());
     }
 
     public RestaurantDetails getRestro(){
+        log.info("Entered method to display all restaurants");
         List<RestaurantDetails> restaurantDetails = null;
 
         restaurantDetails = restaurantDetailsRepository.findAll();
-
+        log.info("Restaurant data retrieved {}", restaurantDetails);
         return restaurantDetails.getFirst();
+
     }
 
     public RestaurantDetails updateRestro(){
+        log.info("Entered method to update owner name by id received");
         Optional<RestaurantDetails> restaurantDetails = null;
 
         restaurantDetails = restaurantDetailsRepository.findById(3);
@@ -62,13 +70,21 @@ public class RestroService {
             details.setName("Tanvi D");
             restaurantDetailsRepository.save(details);
         });
+        log.info("Updated details saved");
 
         return restaurantDetails.get();
     }
 
     @Transactional
     public void deleteRestro(String name){
+        log.info("Entered method to delete restaurant named{}received", name);
         restaurantDetailsRepository.deleteByName(name);
+        log.info("{} record deleted successfully", name);
+    }
+
+    public List<RestaurantDetails> getByOwner(String ownerName){
+        log.info("Entered method to display restaurants owned by {}", ownerName);
+        return restaurantDetailsRepository.getByOwnerName(ownerName);
     }
 
 }
