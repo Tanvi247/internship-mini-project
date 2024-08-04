@@ -3,6 +3,7 @@ package com.training.test.service;
 import com.training.test.entity.RestaurantAddressDetails;
 import com.training.test.entity.RestaurantDetails;
 import com.training.test.model.RestroDetailsRequest;
+import com.training.test.model.RestroResponse;
 import com.training.test.repository.RestaurantDetailsRepository;
 import jakarta.transaction.Transactional;
 import lombok.Data;
@@ -49,6 +50,7 @@ public class RestroService {
         return restaurantDetails;
 
     }
+
 
     public List<RestaurantDetails> getRestro(){
         log.info("Entered method to display all restaurants");
