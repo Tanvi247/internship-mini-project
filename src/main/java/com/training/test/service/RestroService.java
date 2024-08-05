@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Data
@@ -25,7 +24,6 @@ public class RestroService {
         this.loginService = loginService;
         this.restaurantDetailsRepository = restaurantDetailsRepository;
     }
-
 
     public RestaurantDetails processNewRestro(RestroDetailsRequest restroDetailsRequest){
 
@@ -48,33 +46,43 @@ public class RestroService {
 
         log.info("Name of the new restaurant created is {}", restroDetailsRequest.getName());
         return restaurantDetails;
-
     }
 
-
-    public List<RestaurantDetails> getRestro(){
+    public List<RestroResponse> getRestro(){
         log.info("Entered method to display all restaurants");
-        List<RestaurantDetails> restaurantDetails = null;
-
-        restaurantDetails = restaurantDetailsRepository.findAll();
+        List<RestaurantDetails> restaurantDetails = restaurantDetailsRepository.findAll();
         log.info("Restaurant data retrieved {}", restaurantDetails);
-        return restaurantDetails;
 
+        return restaurantDetails.stream()
+                .map(this::convertToRestroResponse)
+                .toList();
     }
 
-    public RestaurantDetails updateRestro(){
+    private RestroResponse convertToRestroResponse(RestaurantDetails restaurantDetails) {
+        RestaurantAddressDetails address = restaurantDetails.getAddressDetails();
+        return RestroResponse.builder()
+                .name(restaurantDetails.getName())
+                .owner(restaurantDetails.getOwnerName())
+                .city(address.getCity())
+                .type(restaurantDetails.getRestroType())
+                .contact(restaurantDetails.getContact().toString())
+                .zipCode(String.valueOf(address.getZipCode()))
+                .streetName(address.getStreetName())
+                .email(restaurantDetails.getEmail())
+                .build();
+    }
+
+    public RestroResponse updateRestro(){
         log.info("Entered method to update owner name by id received");
-        Optional<RestaurantDetails> restaurantDetails = null;
 
-        restaurantDetails = restaurantDetailsRepository.findById(3);
+        RestaurantDetails restaurantDetails = restaurantDetailsRepository.findById(3)
+                .orElseThrow(() -> new RuntimeException("Restaurant with id 3 not found"));
 
-        restaurantDetails.ifPresent(details -> {
-            details.setName("Tanvi D");
-            restaurantDetailsRepository.save(details);
-        });
+        restaurantDetails.setName("Tanvi D");
+        restaurantDetailsRepository.save(restaurantDetails);
         log.info("Updated details saved");
 
-        return restaurantDetails.get();
+        return convertToRestroResponse(restaurantDetails);
     }
 
     @Transactional
@@ -84,9 +92,12 @@ public class RestroService {
         log.info("{} record deleted successfully", name);
     }
 
-    public List<RestaurantDetails> getByOwner(String ownerName){
+    public List<RestroResponse> getByOwner(String ownerName){
         log.info("Entered method to display restaurants owned by {}", ownerName);
-        return restaurantDetailsRepository.getByOwnerName(ownerName);
+        List<RestaurantDetails> restaurantDetails = restaurantDetailsRepository.getByOwnerName(ownerName);
+        return restaurantDetails.stream()
+                .map(this::convertToRestroResponse)
+                .toList() ;
     }
 
 }

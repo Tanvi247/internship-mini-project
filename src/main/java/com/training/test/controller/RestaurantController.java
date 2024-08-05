@@ -1,7 +1,7 @@
 package com.training.test.controller;
 
-import com.training.test.entity.RestaurantDetails;
 import com.training.test.model.RestroDetailsRequest;
+import com.training.test.model.RestroResponse;
 import com.training.test.service.LoginService;
 import com.training.test.service.RestroService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -51,7 +51,7 @@ public class RestaurantController {
     })
     @PostMapping("/createRestro")
     public ResponseEntity<Map<String, String>> setRestro(@RequestBody RestroDetailsRequest restroDetailsRequest){
-        log.info("Request to create new restaurant with details name: {} owner: {} type: {} street: {} city: {} zip code: {} email: {} contact: {}", restroDetailsRequest.getName(),restroDetailsRequest.getOwner(),restroDetailsRequest.getType(),restroDetailsRequest.getStreetName(),restroDetailsRequest.getCity(),restroDetailsRequest.getZipCode(), restroDetailsRequest.getEmail(),restroDetailsRequest.getContact());
+        log.info("entered method to create new restro in controller");
         this.restroService.processNewRestro(restroDetailsRequest);
         Map<String, String> response = new HashMap<>();
         response.put("message", "restaurant added");
@@ -65,7 +65,7 @@ public class RestaurantController {
             @ApiResponse(responseCode = "500", description = "Error with the server. Contact backend team")
     })
     @GetMapping(value= "/getRestroDetails", produces = "application/json")
-    public List<RestaurantDetails> getRestro(){
+    public List<RestroResponse> getRestro(){
         log.info("Request to display all restaurants stored in the restaurant details table received");
         return this.restroService.getRestro();
     }
@@ -77,7 +77,7 @@ public class RestaurantController {
             @ApiResponse(responseCode = "500", description = "Error with the server. Contact backend team")
     })
     @PostMapping("/updateRestroDetails")
-    public RestaurantDetails updateRestro(){
+    public RestroResponse updateRestro(){
         log.info("Request to update owner name by id received");
         return this.restroService.updateRestro();
     }
@@ -98,7 +98,7 @@ public class RestaurantController {
 
     @Operation(summary = "Get by owner", description = "Retrieve restaurant info by owner name")
     @GetMapping("/getByOwner/{owner}")
-    public ResponseEntity<List<RestaurantDetails>> getByOwner(@PathVariable String owner){
+    public ResponseEntity<List<RestroResponse>> getByOwner(@PathVariable String owner){
         log.info("Request to display restaurant by owner{}received", owner);
         return new ResponseEntity<>(this.restroService.getByOwner(owner), HttpStatus.OK);
     }
