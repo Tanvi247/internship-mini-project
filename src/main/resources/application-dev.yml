@@ -1,0 +1,21 @@
+server:
+  port:
+    8081
+spring:
+  application:
+    name: DEV application
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: mysecretpassword
+    driverClassName: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
+test:
+  property:
+    name: uat test
